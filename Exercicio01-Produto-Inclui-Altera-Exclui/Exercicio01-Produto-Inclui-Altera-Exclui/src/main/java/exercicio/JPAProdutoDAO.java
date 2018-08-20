@@ -7,70 +7,57 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.LockModeType;
 
 public class JPAProdutoDAO implements ProdutoDAO {
-	public long inclui(Produto umProduto) 
-	{	EntityManager em = null;
+	public long inclui(Produto umProduto) {
+		EntityManager em = null;
 		EntityTransaction tx = null;
-		try
-		{	// transiente - objeto novo: ainda não persistente
-			// persistente - apos ser persistido 
-			// destacado - objeto persistente não vinculado a um entity manager
+		try { // transiente - objeto novo: ainda não persistente
+				// persistente - apos ser persistido
+				// destacado - objeto persistente não vinculado a um entity
+				// manager
 			em = FabricaDeEntityManager.criarSessao();
 			tx = em.getTransaction();
 			tx.begin();
 			em.persist(umProduto);
 			tx.commit();
 			return umProduto.getId();
-		} 
-		catch(RuntimeException e)
-		{	if (tx != null)
-			{	
-				try
-				{	tx.rollback();
+		} catch (RuntimeException e) {
+			if (tx != null) {
+				try {
+					tx.rollback();
+				} catch (RuntimeException he) {
 				}
-				catch(RuntimeException he)
-				{ }
 			}
 			throw e;
-		}
-		finally
-==>		{		
+		} finally {
+			em.close();
 		}
 	}
 
-	public void altera(Produto umProduto) throws ProdutoNaoEncontradoException
-	{	EntityManager em = null;
+	public void altera(Produto umProduto) throws ProdutoNaoEncontradoException {
+		EntityManager em = null;
 		EntityTransaction tx = null;
 		Produto produto = null;
-		try
-		{	
+		try {
 			em = FabricaDeEntityManager.criarSessao();
 			tx = em.getTransaction();
 			tx.begin();
-			
-==>
-			
-			if(produto == null)
-			{
-==>	
-==>
+			produto = em.find(Produto.class, umProduto.getId(), LockModeType.PESSIMISTIC_WRITE);
+			if (produto == null) {
+				tx.rollback();
+				throw new ProdutoNaoEncontradoException("Produto não encontrado");
 			}
-==>	
+			em.merge(umProduto);
 			tx.commit();
-		} 
-		catch(RuntimeException e)
-		{ 
-			if (tx != null)
-		    {   
-				try
-		        {	tx.rollback();
-		        }
-		        catch(RuntimeException he)
-		        { }
-		    }
-		    throw e;
-		}
-		finally
-		{   em.close();
+		} catch (RuntimeException e) {
+			if (tx != null) {
+				try {
+					tx.rollback();
+				} catch (RuntimeException he) {
+				}
+			}
+			throw e;
+		} finally {
+			em.close();
 		}
 	}
 
@@ -111,26 +98,20 @@ public class JPAProdutoDAO implements ProdutoDAO {
 		}
 	}
 
-	public Produto recuperaUmProduto(long numero) throws ProdutoNaoEncontradoException
-	{	EntityManager em = null;
-		
-		try
-		{	
+	public Produto recuperaUmProduto(long numero) throws ProdutoNaoEncontradoException {
+		EntityManager em = null;
+		try {
 			em = FabricaDeEntityManager.criarSessao();
-
-==>			Produto umProduto = em.find(Produto.class, numero);
-			
+			Produto umProduto = em.find(Produto.class, numero);
 			// Características no método find():
 			// 1. É genérico: não requer um cast.
 			// 2. Retorna null caso a linha não seja encontrada no banco.
-
-			if(umProduto == null)
-			{	throw new ProdutoNaoEncontradoException("Produto não encontrado");
+			if (umProduto == null) {
+				throw new ProdutoNaoEncontradoException("Produto não encontrado");
 			}
 			return umProduto;
-		} 
-		finally
-		{   em.close();
+		} finally {
+			em.close();
 		}
 	}
 
