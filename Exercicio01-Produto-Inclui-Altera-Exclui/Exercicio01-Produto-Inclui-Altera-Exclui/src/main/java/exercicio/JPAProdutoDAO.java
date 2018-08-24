@@ -105,20 +105,16 @@ public class JPAProdutoDAO implements ProdutoDAO {
 		}
 	}
 
-	public List<Produto> recuperaProdutos()
-	{	EntityManager em = null;
-		
-		try
-		{	em = FabricaDeEntityManager.criarSessao();
-
-==>
-
+	public List<Produto> recuperaProdutos() {
+		EntityManager em = null;
+		try {
+			em = FabricaDeEntityManager.criarSessao();
+			@SuppressWarnings("unchecked")
+			List<Produto> produtos = em.createQuery("select p from Produto p order by p.id").getResultList();
 			// Retorna um List vazio caso a tabela correspondente esteja vazia.
-			
 			return produtos;
-		} 
-		finally
-		{   em.close();
+		} finally {
+			em.close();
 		}
 	}
 }

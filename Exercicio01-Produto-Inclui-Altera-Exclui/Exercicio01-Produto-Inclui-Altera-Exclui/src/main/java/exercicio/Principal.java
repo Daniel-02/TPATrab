@@ -28,16 +28,11 @@ public class Principal {
 				nome = Console.readLine('\n' + "Informe o nome do produto: ");
 				lanceMinimo = Console.readDouble("Informe o valor do lance mínimo: ");
 				dataCadastro = Console.readLine("Informe a data de cadastramento do produto: ");
-
 				umProduto = new Produto(nome, lanceMinimo, Util.strToDate(dataCadastro));
-
 				produtoDAO.inclui(umProduto);
-
 				System.out.println('\n' + "Produto número " + umProduto.getId() + " incluído com sucesso!");
-
 				break;
 			}
-
 			case 2: {
 				int resposta = Console.readInt('\n' + "Digite o número do produto que você deseja alterar: ");
 				try {
@@ -78,21 +73,16 @@ public class Principal {
 				}
 				break;
 			}
-
 			case 3: {
 				int resposta = Console.readInt('\n' + "Digite o número do produto que você deseja remover: ");
-
 				try {
 					umProduto = produtoDAO.recuperaUmProduto(resposta);
 				} catch (ProdutoNaoEncontradoException e) {
 					System.out.println('\n' + e.getMessage());
 					break;
 				}
-
 				System.out.println('\n' + "Número = " + umProduto.getId() + "    Nome = " + umProduto.getNome());
-
 				String resp = Console.readLine('\n' + "Confirma a remoção do produto?");
-
 				if (resp.equals("s")) {
 					try {
 						produtoDAO.exclui(umProduto.getId());
@@ -103,27 +93,21 @@ public class Principal {
 				} else {
 					System.out.println('\n' + "Produto não removido.");
 				}
-
 				break;
 			}
-
 			case 4: {
 				List<Produto> produtos = produtoDAO.recuperaProdutos();
-
 				for (Produto produto : produtos) {
 					System.out.println(
 							'\n' + "Id = " + produto.getId() + "  Nome = " + produto.getNome() + "  Lance mínimo = "
 									+ produto.getLanceMinimo() + "  Data Cadastro = " + produto.getDataCadastroMasc());
 				}
-
 				break;
 			}
-
 			case 5: {
 				continua = false;
 				break;
 			}
-
 			default:
 				System.out.println('\n' + "Opção inválida!");
 			}
