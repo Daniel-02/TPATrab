@@ -61,40 +61,30 @@ public class JPAProdutoDAO implements ProdutoDAO {
 		}
 	}
 
-	public void exclui(long numero) throws ProdutoNaoEncontradoException 
-	{	EntityManager em = null;
+	public void exclui(long numero) throws ProdutoNaoEncontradoException {
+		EntityManager em = null;
 		EntityTransaction tx = null;
-		
-		try
-		{	
+		try {
 			em = FabricaDeEntityManager.criarSessao();
 			tx = em.getTransaction();
 			tx.begin();
-
-==>			Produto produto = em.find(Produto.class, new Long(numero), LockModeType.PESSIMISTIC_WRITE);
-			
-			if(produto == null)
-			{	tx.rollback();
+			Produto produto = em.find(Produto.class, new Long(numero), LockModeType.PESSIMISTIC_WRITE);
+			if (produto == null) {
+				tx.rollback();
 				throw new ProdutoNaoEncontradoException("Produto não encontrado");
 			}
-
-==>			
+			em.remove(produto);
 			tx.commit();
-		} 
-		catch(RuntimeException e)
-		{   
-			if (tx != null)
-		    {   
-				try
-		        {	tx.rollback();
-		        }
-		        catch(RuntimeException he)
-		        { }
-		    }
-		    throw e;
-		}
-		finally
-		{   em.close();
+		} catch (RuntimeException e) {
+			if (tx != null) {
+				try {
+					tx.rollback();
+				} catch (RuntimeException he) {
+				}
+			}
+			throw e;
+		} finally {
+			em.close();
 		}
 	}
 
