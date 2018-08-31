@@ -47,7 +47,7 @@ public class ProdutoDAOImpl implements ProdutoDAO {
 			tx = em.getTransaction();
 			tx.begin();
 
-			produto = em.find(Produto.class, umProduto.getId(), LockModeType.PESSIMISTIC_WRITE);
+			produto = em.find(Produto.class, umProduto.getId(), LockModeType.OPTIMISTIC);
 
 			if (produto == null) {
 				tx.rollback();
@@ -83,7 +83,7 @@ public class ProdutoDAOImpl implements ProdutoDAO {
 			tx = em.getTransaction();
 			tx.begin();
 
-			Produto produto = em.find(Produto.class, numero, LockModeType.PESSIMISTIC_WRITE);
+			Produto produto = em.find(Produto.class, numero, LockModeType.OPTIMISTIC);
 
 			if (produto == null) {
 				tx.rollback();
