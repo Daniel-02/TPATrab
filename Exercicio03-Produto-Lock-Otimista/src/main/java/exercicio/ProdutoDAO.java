@@ -8,7 +8,7 @@ public interface ProdutoDAO
 	long inclui(Produto umProduto); 
 
 	void altera(Produto umProduto)
-		throws ProdutoNaoEncontradoException; 
+		throws ProdutoNaoEncontradoException;
 	
 	void exclui(long id) 
 		throws ProdutoNaoEncontradoException; 
