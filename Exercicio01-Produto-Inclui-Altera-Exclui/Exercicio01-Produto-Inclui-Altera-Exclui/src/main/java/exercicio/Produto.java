@@ -10,8 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
-@Table(name = "PRODUTO")
+@DynamicInsert
+@DynamicUpdate
+@Table(name = "produto")
 // @SequenceGenerator(name="SEQUENCIA",
 // sequenceName="SEQ_PRODUTO",
 // allocationSize=1)
