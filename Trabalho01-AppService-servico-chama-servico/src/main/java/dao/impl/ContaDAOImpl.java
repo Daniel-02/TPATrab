@@ -68,7 +68,7 @@ public class ContaDAOImpl implements ContaDAO {
 
 			conta.setSaldo(conta.getSaldo() - valor);
 
-			em.merge(umaConta);
+//			em.merge(umaConta);
 		} catch (RuntimeException e) {
 			throw new InfraestruturaException(e);
 		}
@@ -86,7 +86,7 @@ public class ContaDAOImpl implements ContaDAO {
 
 			conta.setSaldo(conta.getSaldo() + valor);
 
-			em.merge(umaConta);
+//			em.merge(umaConta);
 		} catch (RuntimeException e) {
 			throw new InfraestruturaException(e);
 		}
