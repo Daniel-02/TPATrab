@@ -65,12 +65,14 @@ public class JPAUtil {
 		EntityTransaction tx = threadTransaction.get();
 		int txCount = transactionCount.get();
 		try {
-			if (tx != null && tx.isActive() && txCount == 1) {
-				tx.commit();
-				// System.out.println("Comitou transacao");
+			if (txCount == 1) {
+				if (tx != null && tx.isActive()) {
+					tx.commit();
+					// System.out.println("Comitou transacao");
+				}
+				threadTransaction.set(null);
 			}
 			transactionCount.set(txCount - 1);
-			threadTransaction.set(null);
 		} catch (RuntimeException ex) {
 			try {
 				rollbackTransaction();
@@ -87,6 +89,7 @@ public class JPAUtil {
 		EntityTransaction tx = threadTransaction.get();
 		try {
 			threadTransaction.set(null);
+			transactionCount.set(0);
 			if (tx != null && tx.isActive()) {
 				tx.rollback();
 			}
@@ -101,17 +104,19 @@ public class JPAUtil {
 												// sessão");
 
 		try {
-			EntityManager s = threadEntityManager.get();
-			threadEntityManager.set(null);
-			if (s != null && s.isOpen()) {
-				s.close();
-				// System.out.println("Fechou a sessão");
-			}
+			if (transactionCount.get() == 0) {
+				EntityManager s = threadEntityManager.get();
+				threadEntityManager.set(null);
+				if (s != null && s.isOpen()) {
+					s.close();
+					// System.out.println("Fechou a sessão");
+				}
 
-			EntityTransaction tx = threadTransaction.get();
-			if (tx != null && tx.isActive()) {
-				rollbackTransaction();
-				throw new RuntimeException("EntityManager sendo fechado " + "com transação ativa.");
+				EntityTransaction tx = threadTransaction.get();
+				if (tx != null && tx.isActive()) {
+					rollbackTransaction();
+					throw new RuntimeException("EntityManager sendo fechado " + "com transação ativa.");
+				}
 			}
 		} catch (RuntimeException ex) {
 			throw new InfraestruturaException(ex);
