@@ -37,6 +37,7 @@ public class InterceptadorDeServico implements MethodInterceptor
     {
 		try 
 		{	
+			if (metodo.isAnnotationPresent(anotacao.RollbackFor.class)) System.out.println("Transactional");			
 			JPAUtil.beginTransaction();
 
 			System.out.println("\nDentro do interceptador de serviço - Executando o método " + metodo.getName() 
