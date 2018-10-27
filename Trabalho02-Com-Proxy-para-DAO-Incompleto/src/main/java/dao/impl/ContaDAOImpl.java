@@ -13,7 +13,7 @@ import modelo.Conta;
 public class ContaDAOImpl implements ContaDAO 
 {	
 	@PersistenceContext
-	private EntityManager em;
+	public EntityManager em;
 	
 	public long inclui(Conta umaConta) 
 	{	
