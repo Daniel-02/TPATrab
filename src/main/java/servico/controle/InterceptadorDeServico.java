@@ -1,7 +1,9 @@
 package servico.controle;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import dao.controle.FabricaDeDAOs;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 
@@ -29,6 +31,12 @@ public class InterceptadorDeServico implements MethodInterceptor {
 
 	public Object intercept(Object objeto, Method metodo, Object[] args, MethodProxy metodoDoProxy) throws Throwable {
 		try {
+			Field[] fields = objeto.getClass().getSuperclass().getFields();
+			for (Field field : fields) {
+				if (field.isAnnotationPresent(anotacao.Autowired.class))
+					field.set(objeto, FabricaDeDAOs.getDAO(field.getType()));
+			}
+
 			if (metodo.isAnnotationPresent(anotacao.RollbackFor.class))
 				JPAUtil.beginTransaction();
 
