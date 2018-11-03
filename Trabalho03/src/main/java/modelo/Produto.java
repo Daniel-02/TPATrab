@@ -13,13 +13,12 @@ import javax.persistence.Transient;
 import util.Util;
 
 @Entity
-@Table(name="produto")
+@Table(name = "produto")
 //@SequenceGenerator(name="SEQUENCIA", 
 //		           sequenceName="SEQ_PRODUTO",
 //		           allocationSize=1)
 
-public class Produto
-{	
+public class Produto {
 	private Long id;
 	private String nome;
 	private double lanceMinimo;
@@ -28,82 +27,78 @@ public class Produto
 
 	// ********* Construtores *********
 
-	public Produto()
-	{
+	public Produto() {
 	}
 
-	public Produto(String nome, 
-	               double lanceMinimo, 
-	               Date dataCadastro)
-	{	this.nome = nome;
+	public Produto(String nome, double lanceMinimo, Date dataCadastro) {
+		this.nome = nome;
 		this.lanceMinimo = lanceMinimo;
-		this.dataCadastro = dataCadastro;	
+		this.dataCadastro = dataCadastro;
 	}
 
 	// ********* Métodos do Tipo Get *********
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="ID")
-	public Long getId()
-	{	return id;
-	}
-	
-	public String getNome()
-	{	return nome;
-	}
-	
-	@Column(name="LANCE_MINIMO")
-	public double getLanceMinimo()
-	{	return lanceMinimo;
-	}
-	
-	@Transient
-	public String getLanceMinimoMasc()
-	{	return Util.doubleToStr(lanceMinimo);
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ID")
+	public Long getId() {
+		return id;
 	}
 
-	@Column(name="DATA_CADASTRO")
-	public Date getDataCadastro()
-	{	return dataCadastro;
-	}
-	
-	@Transient
-	public String getDataCadastroMasc()
-	{	return Util.dateToStr(dataCadastro);
+	public String getNome() {
+		return nome;
 	}
 
-	@Column(name="DATA_VENDA")
-	public Date getDataVenda()
-	{	return dataVenda;
+	@Column(name = "LANCE_MINIMO")
+	public double getLanceMinimo() {
+		return lanceMinimo;
 	}
-	
+
 	@Transient
-	public String getDataVendaMasc()
-	{	return Util.dateToStr(dataVenda);
+	public String getLanceMinimoMasc() {
+		return Util.doubleToStr(lanceMinimo);
+	}
+
+	@Column(name = "DATA_CADASTRO")
+	public Date getDataCadastro() {
+		return dataCadastro;
+	}
+
+	@Transient
+	public String getDataCadastroMasc() {
+		return Util.dateToStr(dataCadastro);
+	}
+
+	@Column(name = "DATA_VENDA")
+	public Date getDataVenda() {
+		return dataVenda;
+	}
+
+	@Transient
+	public String getDataVendaMasc() {
+		return Util.dateToStr(dataVenda);
 	}
 
 	// ********* Métodos do Tipo Set *********
 
 	@SuppressWarnings("unused")
-	private void setId(Long id)
-	{	this.id = id;
+	private void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setNome(String nome)
-	{	this.nome = nome;
+	public void setNome(String nome) {
+		this.nome = nome;
 	}
-	
-	public void setLanceMinimo(double lanceMinimo)
-	{	this.lanceMinimo = lanceMinimo;
+
+	public void setLanceMinimo(double lanceMinimo) {
+		this.lanceMinimo = lanceMinimo;
 	}
-	
-	public void setDataCadastro(Date dataCadastro)
-	{	this.dataCadastro = dataCadastro;	
+
+	public void setDataCadastro(Date dataCadastro) {
+		this.dataCadastro = dataCadastro;
 	}
-	
-	public void setDataVenda(Date dataVenda)
-	{	this.dataVenda = dataVenda;
+
+	public void setDataVenda(Date dataVenda) {
+		this.dataVenda = dataVenda;
 	}
 }
-

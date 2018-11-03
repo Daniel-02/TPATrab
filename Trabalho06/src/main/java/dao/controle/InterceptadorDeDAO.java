@@ -3,9 +3,6 @@ package dao.controle;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import javax.persistence.EntityManager;
-
-import dao.impl.ContaDAOImpl;
 import excecao.InfraestruturaException;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
