@@ -37,7 +37,7 @@ public class InterceptadorDeServico implements MethodInterceptor {
 					field.set(objeto, FabricaDeDAOs.getDAO(field.getType()));
 			}
 
-			if (metodo.isAnnotationPresent(anotacao.RollbackFor.class))
+			if (metodo.isAnnotationPresent(anotacao.Transactional.class))
 				JPAUtil.beginTransaction();
 
 			System.out.println("\nDentro do interceptador de serviço - Executando o método " + metodo.getName()
@@ -45,7 +45,7 @@ public class InterceptadorDeServico implements MethodInterceptor {
 
 			Object obj = metodoDoProxy.invokeSuper(objeto, args);
 
-			if (metodo.isAnnotationPresent(anotacao.RollbackFor.class))
+			if (metodo.isAnnotationPresent(anotacao.Transactional.class))
 				JPAUtil.commitTransaction();
 
 			System.out.println("\nDentro do interceptador de serviço - Executando o método " + metodo.getName()
