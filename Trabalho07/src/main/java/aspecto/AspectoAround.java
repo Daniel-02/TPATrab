@@ -49,12 +49,12 @@ public class AspectoAround {
 //
 //			logger.error("   Classe do erro: " + throwable.getClass().getName() + "   Metodo: " + metodo
 //					+ "   Mensagem: " + mensagem + "   Stack Trace: " + stackTrace);
-
+//
 			BufferedWriter writer = null;
 			try {
 				writer = new BufferedWriter(new FileWriter(log, true));
-				writer.write(LocalDateTime.now() +": Classe do erro: " + throwable.getClass().getName() + "   Metodo: " + metodo
-						+ "   Mensagem: " + mensagem + "   Stack Trace: " + stackTrace);
+				writer.write(LocalDateTime.now() + ": Classe do erro: " + throwable.getClass().getName() + "   Metodo: "
+						+ metodo + "   Mensagem: " + mensagem + "   Stack Trace: " + stackTrace);
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
