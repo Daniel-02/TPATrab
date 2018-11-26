@@ -60,7 +60,7 @@ public class Documento {
 		return cabecalho;
 	}
 
-	public String getconclusao() {
+	public String getConclusao() {
 		return conclusao;
 	}
 

@@ -6,8 +6,8 @@ import anotacao.Autowired;
 import anotacao.RollbackFor;
 import anotacao.Transactional;
 import dao.DocumentoDAO;
-import excecao.ClienteNaoEncontradoException;
 import excecao.DocumentoNaoEncontradoException;
+import excecao.ItemNaoEncontradoException;
 import excecao.ObjetoNaoEncontradoException;
 import modelo.Documento;
 import servico.DocumentoAppService;
@@ -29,7 +29,7 @@ public class DocumentoAppServiceImpl implements DocumentoAppService {
 	}
 
 	@Transactional
-	@RollbackFor(nomes = { DocumentoNaoEncontradoException.class, ClienteNaoEncontradoException.class })
+	@RollbackFor(nomes = { DocumentoNaoEncontradoException.class, ItemNaoEncontradoException.class })
 	public void altera(Documento documento) throws DocumentoNaoEncontradoException {
 			System.out.println("\nVai chamar o método altera() de DocumentoDAOImpl.");
 
