@@ -15,7 +15,8 @@ public class FramePrincipal extends JFrame
 {
 	private static final long serialVersionUID = 1L;
 
-	private JMenuItem menuItemCliente;
+	private JMenuItem menuItemDocumento;
+	private JMenuItem menuItemItem;
 	private JMenuItem menuItemSair;
 	private JPanel panel;
 	private JFrame frame;
@@ -33,16 +34,19 @@ public class FramePrincipal extends JFrame
 	
 		frame = this;
 		
-		menuItemCliente = new JMenuItem("Cliente");
-		menuItemCliente.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.ALT_MASK)); // Diz a combinação necessaria para chamar os action listeners
-		menuItemCliente.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				DialogCliente dialogCliente = new DialogCliente(frame);
-				dialogCliente.novo();
-				dialogCliente.setVisible(true);
-			}
-		});
-		mnCadastrar.add(menuItemCliente);
+		menuItemDocumento = new JMenuItem("Documento");
+		menuItemDocumento.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.ALT_MASK)); // Diz a combinação necessaria para chamar os action listeners
+//		menuItemCliente.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				DialogCliente dialogCliente = new DialogCliente(frame);
+//				dialogCliente.novo();
+//				dialogCliente.setVisible(true);
+//			}
+//		});
+//		mnCadastrar.add(menuItemCliente);
+
+		menuItemItem = new JMenuItem("Item");
+		menuItemItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.ALT_MASK)); // Diz a combinação necessaria para chamar os action listeners
 		
 		menuItemSair = new JMenuItem("Sair");
 		menuItemSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK)); // Diz a combinação necessaria para chamar os action listeners

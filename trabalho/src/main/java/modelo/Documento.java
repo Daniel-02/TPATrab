@@ -64,7 +64,7 @@ public class Documento {
 		return conclusao;
 	}
 
-	public Date getdataCriacao() {
+	public Date getDataCriacao() {
 		return dataCriacao;
 	}
 
