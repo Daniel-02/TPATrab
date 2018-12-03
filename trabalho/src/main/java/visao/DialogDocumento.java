@@ -2,28 +2,24 @@ package visao;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JTextField;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import excecao.DocumentoNaoEncontradoException;
 import modelo.Documento;
 import servico.DocumentoAppService;
 import servico.controle.FabricaDeServico;
+import java.awt.SystemColor;
 
 public class DialogDocumento extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -46,16 +42,16 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	private JPanel panel;
 
 	private Documento umDocumento;
-	private JTextField textFieldCabecalho;
-	private JTextField textFieldConclusao;
 	private JLabel msgCabecalho;
 	private JLabel msgConclusao;
+	private JTextArea cabecalhoTextArea;
+	private JTextArea conclusaoTextArea;
 
 	public void designaDocumentoAFrame(Documento umDocumento) {
 		this.umDocumento = umDocumento;
 
-		textFieldCabecalho.setText(umDocumento.getCabecalho());
-		textFieldConclusao.setText(umDocumento.getConclusao());
+		cabecalhoTextArea.setText(umDocumento.getCabecalho());
+		conclusaoTextArea.setText(umDocumento.getConclusao());
 
 		msgCabecalho.setText("");
 		msgConclusao.setText("");
@@ -118,29 +114,33 @@ public class DialogDocumento extends JDialog implements ActionListener {
 		lblCabecalho.setBounds(10, 54, 73, 14);
 		panel.add(lblCabecalho);
 
-		textFieldCabecalho = new JTextField();
-		textFieldCabecalho.setBounds(92, 54, 350, 90);
-		panel.add(textFieldCabecalho);
-		textFieldCabecalho.setColumns(10);
-
-		textFieldConclusao = new JTextField();
-		textFieldConclusao.setBounds(92, 165, 350, 90);
-		panel.add(textFieldConclusao);
-		textFieldConclusao.setColumns(10);
-
 		JLabel lblConclusao = new JLabel("Conclusao");
 		lblConclusao.setBounds(10, 165, 61, 14);
 		panel.add(lblConclusao);
 
 		msgCabecalho = new JLabel("");
 		msgCabecalho.setForeground(Color.RED);
-		msgCabecalho.setBounds(92, 140, 350, 14);
+		msgCabecalho.setBounds(92, 145, 350, 14);
 		panel.add(msgCabecalho);
 
 		msgConclusao = new JLabel("");
 		msgConclusao.setForeground(Color.RED);
-		msgConclusao.setBounds(92, 252, 350, 14);
+		msgConclusao.setBounds(92, 257, 350, 14);
 		panel.add(msgConclusao);
+		
+		cabecalhoTextArea = new JTextArea();
+		cabecalhoTextArea.setLineWrap(true);
+		cabecalhoTextArea.setForeground(Color.WHITE);
+		cabecalhoTextArea.setBackground(Color.DARK_GRAY);
+		cabecalhoTextArea.setBounds(93, 54, 349, 90);
+		panel.add(cabecalhoTextArea);
+		
+		conclusaoTextArea = new JTextArea();
+		conclusaoTextArea.setLineWrap(true);
+		conclusaoTextArea.setForeground(Color.WHITE);
+		conclusaoTextArea.setBackground(Color.DARK_GRAY);
+		conclusaoTextArea.setBounds(93, 165, 349, 90);
+		panel.add(conclusaoTextArea);
 		buscarButton.addActionListener(this);
 	}
 
@@ -154,8 +154,8 @@ public class DialogDocumento extends JDialog implements ActionListener {
 
 			if (!deuErro) {
 				umDocumento = new Documento();
-				umDocumento.setCabecalho(textFieldCabecalho.getText());
-				umDocumento.setConclusao(textFieldConclusao.getText());
+				umDocumento.setCabecalho(cabecalhoTextArea.getText());
+				umDocumento.setConclusao(conclusaoTextArea.getText());
 
 				documentoService.inclui(umDocumento);
 
@@ -170,8 +170,8 @@ public class DialogDocumento extends JDialog implements ActionListener {
 			boolean deuErro = validaDocumento();
 
 			if (!deuErro) {
-				umDocumento.setCabecalho(textFieldCabecalho.getText());
-				umDocumento.setConclusao(textFieldConclusao.getText());
+				umDocumento.setCabecalho(cabecalhoTextArea.getText());
+				umDocumento.setConclusao(conclusaoTextArea.getText());
 
 				try {
 					documentoService.altera(umDocumento);
@@ -203,8 +203,8 @@ public class DialogDocumento extends JDialog implements ActionListener {
 			try {
 				umDocumento = documentoService.recuperaDocumento(umDocumento.getId());
 
-				textFieldCabecalho.setText(umDocumento.getCabecalho());
-				textFieldConclusao.setText(umDocumento.getConclusao());
+				cabecalhoTextArea.setText(umDocumento.getCabecalho());
+				conclusaoTextArea.setText(umDocumento.getConclusao());
 
 				cancelado();
 			} catch (DocumentoNaoEncontradoException e1) {
@@ -220,13 +220,13 @@ public class DialogDocumento extends JDialog implements ActionListener {
 
 	private boolean validaDocumento() {
 		boolean deuErro = false;
-		if (textFieldCabecalho.getText().trim().length() == 0) {
+		if (cabecalhoTextArea.getText().trim().length() == 0) {
 			deuErro = true;
 			msgCabecalho.setText("Campo de preenchimento obrigatório");
 		} else {
 			msgCabecalho.setText("");
 		}
-		if (textFieldConclusao.getText().trim().length() == 0) {
+		if (conclusaoTextArea.getText().trim().length() == 0) {
 			deuErro = true;
 			msgConclusao.setText("Campo de preenchimento obrigatório");
 		} else {
@@ -237,11 +237,11 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	}
 
 	public void novo() {
-		textFieldCabecalho.setEnabled(true);
-		textFieldConclusao.setEnabled(true);
+		cabecalhoTextArea.setEnabled(true);
+		conclusaoTextArea.setEnabled(true);
 
-		textFieldCabecalho.setText("");
-		textFieldConclusao.setText("");
+		cabecalhoTextArea.setText("");
+		conclusaoTextArea.setText("");
 		buttonGroup.clearSelection();
 
 		novoButton.setEnabled(false);
@@ -254,8 +254,8 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	}
 
 	public void salvo() {
-		textFieldCabecalho.setEnabled(false);
-		textFieldConclusao.setEnabled(false);
+		cabecalhoTextArea.setEnabled(false);
+		conclusaoTextArea.setEnabled(false);
 
 		novoButton.setEnabled(true);
 		cadastrarButton.setEnabled(false);
@@ -267,8 +267,8 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	}
 
 	public void editavel() {
-		textFieldCabecalho.setEnabled(true);
-		textFieldConclusao.setEnabled(true);
+		cabecalhoTextArea.setEnabled(true);
+		conclusaoTextArea.setEnabled(true);
 
 		novoButton.setEnabled(false);
 		cadastrarButton.setEnabled(false);
@@ -280,8 +280,8 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	}
 
 	public void removido() {
-		textFieldCabecalho.setEnabled(false);
-		textFieldConclusao.setEnabled(false);
+		cabecalhoTextArea.setEnabled(false);
+		conclusaoTextArea.setEnabled(false);
 
 		novoButton.setEnabled(true);
 		cadastrarButton.setEnabled(false);
@@ -293,8 +293,8 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	}
 
 	public void cancelado() {
-		textFieldCabecalho.setEnabled(false);
-		textFieldConclusao.setEnabled(false);
+		cabecalhoTextArea.setEnabled(false);
+		conclusaoTextArea.setEnabled(false);
 
 		novoButton.setEnabled(true);
 		cadastrarButton.setEnabled(false);

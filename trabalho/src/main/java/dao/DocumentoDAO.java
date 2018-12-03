@@ -1,5 +1,6 @@
 package dao;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ public interface DocumentoDAO extends DaoGenerico<Documento, Long> {
 
 	/* ****** Métodos não Genéricos ******* */
 
+	List<Documento> recuperaListaDeDocumentosPelaData(Date data, int deslocamento, int linhasPorPagina);
 	// Um método definido aqui, que não seja anotado, deverá ser
 	// implementado como final em ProdutoDAOImpl.
 }

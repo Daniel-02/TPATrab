@@ -1,5 +1,6 @@
 package servico.impl;
 
+import java.sql.Date;
 import java.util.List;
 
 import anotacao.Autowired;
@@ -74,4 +75,12 @@ public class DocumentoAppServiceImpl implements DocumentoAppService {
 
 		return contas;
 	}
+	
+	public List<Documento> recuperaDocumentosPelaData(Date data, int deslocamento, int linhasPorPagina) {
+
+		List<Documento> contas = documentoDAO.recuperaListaDeDocumentosPelaData(data, deslocamento, linhasPorPagina);
+
+		return contas;
+	}
+	
 }

@@ -16,11 +16,13 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.table.TableColumnModel;
 
+import util.Util;
+
 
 public class DialogTabelaDocumento extends JDialog implements ActionListener
 {
 	private static final long serialVersionUID = 1L;
-	private JTextField nomeTextField;
+	private JTextField dataTextField;
 	private JTable table;
 	private DocumentoModel documentoModel;
 	private JScrollPane scrollPane;
@@ -44,23 +46,23 @@ public class DialogTabelaDocumento extends JDialog implements ActionListener
 		getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JLabel lblPesquisaPorNome = new JLabel("Pesquisa por Nome");
-		lblPesquisaPorNome.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblPesquisaPorNome.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPesquisaPorNome.setBounds(203, 11, 195, 22);
-		panel.add(lblPesquisaPorNome);
+		JLabel lblPesquisaPorData = new JLabel("Pesquisa por Data");
+		lblPesquisaPorData.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblPesquisaPorData.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPesquisaPorData.setBounds(203, 11, 195, 22);
+		panel.add(lblPesquisaPorData);
 		
-		JLabel lblNome = new JLabel("Nome:");
-		lblNome.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNome.setBounds(92, 42, 55, 22);
-		panel.add(lblNome);
+		JLabel lblData = new JLabel("Data:");
+		lblData.setFont(new Font("Tahoma", Font.BOLD, 12));
+		lblData.setBounds(92, 42, 55, 22);
+		panel.add(lblData);
 		
-		nomeTextField = new JTextField();
-		nomeTextField.setBackground(UIManager.getColor("Button.light"));
-		nomeTextField.setForeground(SystemColor.desktop);
-		nomeTextField.setBounds(142, 44, 324, 20);
-		panel.add(nomeTextField);
-		nomeTextField.setColumns(10);
+		dataTextField = new JTextField();
+		dataTextField.setBackground(UIManager.getColor("Button.light"));
+		dataTextField.setForeground(SystemColor.desktop);
+		dataTextField.setBounds(142, 44, 324, 20);
+		panel.add(dataTextField);
+		dataTextField.setColumns(10);
 		
 		JButton btnPesquisar = new JButton("Pesquisar");
 		btnPesquisar.addActionListener(this);
@@ -83,7 +85,7 @@ public class DialogTabelaDocumento extends JDialog implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		documentoModel = new DocumentoModel();	
-		documentoModel.setNomeDocumento(nomeTextField.getText());
+    	documentoModel.setDataDocumento(Util.strToDate(dataTextField.getText()));
 		table.setModel(documentoModel);
 
 		// Designa um renderer e um editor para os botões.
@@ -91,7 +93,7 @@ public class DialogTabelaDocumento extends JDialog implements ActionListener
 		// que retorna o botão que deve ser renderizado.
 		// E sempre que um botão é clicado é executado o método getTableCellEditorComponent()
 		// que retorna o botão que foi clicado para que o listener deste botão possa ser executado.
-		new ButtonColumn(table, 5, this, dialogDocumento); //Parametros na ordem ==> Tabela, número da coluna onde está o botão, this da janela de busca, janela anterior a janela de busca.
+		new ButtonColumn(table, 4, this, dialogDocumento); //Parametros na ordem ==> Tabela, número da coluna onde está o botão, this da janela de busca, janela anterior a janela de busca.
 
 		// Designa um valor preferido para a coluna. Se ele for menor
 		// ou maior do que o máximo possível, ele será ajustado.
@@ -102,7 +104,6 @@ public class DialogTabelaDocumento extends JDialog implements ActionListener
 		columnModel.getColumn(2).setPreferredWidth(30);
 		columnModel.getColumn(3).setPreferredWidth(100);
 		columnModel.getColumn(4).setPreferredWidth(70);
-		columnModel.getColumn(5).setPreferredWidth(60);
 		
 		scrollPane.setVisible(true);
 	}

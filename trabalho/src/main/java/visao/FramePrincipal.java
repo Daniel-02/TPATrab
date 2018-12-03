@@ -36,17 +36,18 @@ public class FramePrincipal extends JFrame
 		
 		menuItemDocumento = new JMenuItem("Documento");
 		menuItemDocumento.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, ActionEvent.ALT_MASK)); // Diz a combinação necessaria para chamar os action listeners
-//		menuItemCliente.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				DialogCliente dialogCliente = new DialogCliente(frame);
-//				dialogCliente.novo();
-//				dialogCliente.setVisible(true);
-//			}
-//		});
-//		mnCadastrar.add(menuItemCliente);
+		menuItemDocumento.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DialogDocumento dialogDocumento = new DialogDocumento(frame);
+				dialogDocumento.novo();
+				dialogDocumento.setVisible(true);
+			}
+		});
+		mnCadastrar.add(menuItemDocumento);
 
 		menuItemItem = new JMenuItem("Item");
 		menuItemItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_I, ActionEvent.ALT_MASK)); // Diz a combinação necessaria para chamar os action listeners
+		mnCadastrar.add(menuItemItem);
 		
 		menuItemSair = new JMenuItem("Sair");
 		menuItemSair.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.ALT_MASK)); // Diz a combinação necessaria para chamar os action listeners

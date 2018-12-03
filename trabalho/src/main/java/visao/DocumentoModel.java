@@ -31,15 +31,15 @@ public class DocumentoModel extends AbstractTableModel {
 	private Map<Integer, Documento> cache;
 	private int rowIndexAnterior = 0;
 	private Integer qtd;
-	private String nomeDocumento;
+	private Date data;
 
 	public DocumentoModel() {
 		this.qtd = null;
 		this.cache = new HashMap<Integer, Documento>(NUMERO_DE_LINHAS_POR_PAGINA * 4 / 75 / 100 + 2);
 	}
 
-	public void setNomeDocumento(String nomeDocumento) {
-		this.nomeDocumento = nomeDocumento;
+	public void setDataDocumento(Date data) {
+		this.data = data;
 	}
 
 	public String getColumnName(int c) {
@@ -62,7 +62,7 @@ public class DocumentoModel extends AbstractTableModel {
 	@Override
 	public int getRowCount() {
 		if (qtd == null)
-//			qtd = (int) documentoService.recuperaQtdPeloNome(nomeDocumento);
+			// qtd = (int) documentoService.recuperaQtdPeloNome(nomeDocumento);
 			qtd = 0;
 
 		return qtd;
@@ -75,7 +75,7 @@ public class DocumentoModel extends AbstractTableModel {
 				cache.clear();
 
 				if (rowIndex >= rowIndexAnterior) {
-					List<Documento> resultados = documentoService.recuperaPeloNome(nomeDocumento,
+					List<Documento> resultados = documentoService.recuperaDocumentosPelaData(data,
 							rowIndex - (NUMERO_DE_LINHAS_POR_PAGINA - 1), NUMERO_DE_LINHAS_POR_PAGINA * 2);
 
 					for (int j = 0; j < resultados.size(); j++) {
@@ -87,7 +87,7 @@ public class DocumentoModel extends AbstractTableModel {
 					if (inicio < 0)
 						inicio = 0;
 
-					List<Documento> resultados = documentoService.recuperaPeloNome(nomeDocumento, inicio,
+					List<Documento> resultados = documentoService.recuperaDocumentosPelaData(data, inicio,
 							NUMERO_DE_LINHAS_POR_PAGINA * 2);
 
 					for (int j = 0; j < resultados.size(); j++) {
@@ -97,7 +97,7 @@ public class DocumentoModel extends AbstractTableModel {
 				}
 			} else {
 				if (rowIndex >= rowIndexAnterior) {
-					List<Documento> resultados = documentoService.recuperaPeloNome(nomeDocumento, rowIndex,
+					List<Documento> resultados = documentoService.recuperaDocumentosPelaData(data, rowIndex,
 							NUMERO_DE_LINHAS_POR_PAGINA * 2);
 
 					for (int j = 0; j < resultados.size(); j++) {
@@ -109,7 +109,7 @@ public class DocumentoModel extends AbstractTableModel {
 					if (inicio < 0)
 						inicio = 0;
 
-					List<Documento> resultados = documentoService.recuperaPeloNome(nomeDocumento, inicio,
+					List<Documento> resultados = documentoService.recuperaDocumentosPelaData(data, inicio,
 							NUMERO_DE_LINHAS_POR_PAGINA * 2);
 
 					for (int j = 0; j < resultados.size(); j++) {

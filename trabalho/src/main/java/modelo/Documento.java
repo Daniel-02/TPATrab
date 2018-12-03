@@ -28,7 +28,8 @@ import util.Util;
 		@NamedQuery(name = "Documento.recuperaListaDeDocumentos", query = "select d from Documento d order by d.id"),
 		@NamedQuery(name = "Documento.recuperaListaDeDocumentosEItens", query = "select distinct d from Documento d left outer join fetch d.itens order by d.id asc"),
 		@NamedQuery(name = "Documento.recuperaConjuntoDeDocumentosEItens", query = "select  d from Documento d left outer join fetch d.itens order by d.id asc"),
-		@NamedQuery(name = "Documento.recuperaPrimeiroDocumento", query = "select d from Documento d order by d.dataCriacao asc") })
+		@NamedQuery(name = "Documento.recuperaPrimeiroDocumento", query = "select d from Documento d order by d.dataCriacao asc"),
+		})
 
 public class Documento {
 	private Long id;

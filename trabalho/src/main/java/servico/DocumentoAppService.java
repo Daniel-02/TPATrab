@@ -1,5 +1,6 @@
 package servico;
 
+import java.sql.Date;
 import java.util.List;
 
 import excecao.DocumentoNaoEncontradoException;
@@ -16,4 +17,6 @@ public interface DocumentoAppService
 	Documento recuperaDocumento(long numero) throws DocumentoNaoEncontradoException;
 	
 	List<Documento> recuperaDocumentos(); 
+	
+	public List<Documento> recuperaDocumentosPelaData(Date data, int deslocamento, int linhasPorPagina);
 }
