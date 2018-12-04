@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,6 +18,7 @@ import javax.swing.UIManager;
 import javax.swing.table.TableColumnModel;
 
 import util.Util;
+import java.awt.Color;
 
 
 public class DialogTabelaDocumento extends JDialog implements ActionListener
@@ -26,6 +28,7 @@ public class DialogTabelaDocumento extends JDialog implements ActionListener
 	private JTable table;
 	private DocumentoModel documentoModel;
 	private JScrollPane scrollPane;
+	private JLabel msgData;
 	
 	private TableColumnModel columnModel;
 	
@@ -49,18 +52,18 @@ public class DialogTabelaDocumento extends JDialog implements ActionListener
 		JLabel lblPesquisaPorData = new JLabel("Pesquisa por Data");
 		lblPesquisaPorData.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblPesquisaPorData.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPesquisaPorData.setBounds(203, 11, 195, 22);
+		lblPesquisaPorData.setBounds(202, 5, 195, 22);
 		panel.add(lblPesquisaPorData);
 		
 		JLabel lblData = new JLabel("Data:");
 		lblData.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblData.setBounds(92, 42, 55, 22);
+		lblData.setBounds(92, 30, 55, 22);
 		panel.add(lblData);
 		
 		dataTextField = new JTextField();
 		dataTextField.setBackground(UIManager.getColor("Button.light"));
 		dataTextField.setForeground(SystemColor.desktop);
-		dataTextField.setBounds(142, 44, 324, 20);
+		dataTextField.setBounds(142, 30, 324, 20);
 		panel.add(dataTextField);
 		dataTextField.setColumns(10);
 		
@@ -68,6 +71,11 @@ public class DialogTabelaDocumento extends JDialog implements ActionListener
 		btnPesquisar.addActionListener(this);
 		btnPesquisar.setBounds(249, 75, 102, 23);
 		panel.add(btnPesquisar);
+		
+		msgData = new JLabel("");
+		msgData.setForeground(Color.RED);
+		msgData.setBounds(142, 52, 324, 14);
+		panel.add(msgData);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setVisible(false);
@@ -85,7 +93,14 @@ public class DialogTabelaDocumento extends JDialog implements ActionListener
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		documentoModel = new DocumentoModel();	
-    	documentoModel.setDataDocumento(Util.strToDate(dataTextField.getText()));
+		if (Util.dataValida(dataTextField.getText().trim())) {
+			Date teste = Util.strToDate(dataTextField.getText());
+			documentoModel.setDataDocumento(Util.strToDate(dataTextField.getText()));
+			msgData.setText("");
+		} else {
+			msgData.setText("Formato de data inválida: dd/mm/yyyy");
+		}
+			
 		table.setModel(documentoModel);
 
 		// Designa um renderer e um editor para os botões.
@@ -98,12 +113,11 @@ public class DialogTabelaDocumento extends JDialog implements ActionListener
 		// Designa um valor preferido para a coluna. Se ele for menor
 		// ou maior do que o máximo possível, ele será ajustado.
 		// columnModel.getColumn(0).setPreferredWidth(50);
-		columnModel.getColumn(0).setMinWidth(0);
-		columnModel.getColumn(0).setMaxWidth(0);
+		columnModel.getColumn(0).setPreferredWidth(30);
 		columnModel.getColumn(1).setPreferredWidth(200);
-		columnModel.getColumn(2).setPreferredWidth(30);
-		columnModel.getColumn(3).setPreferredWidth(100);
-		columnModel.getColumn(4).setPreferredWidth(70);
+		columnModel.getColumn(2).setPreferredWidth(200);
+		columnModel.getColumn(3).setPreferredWidth(70);
+		columnModel.getColumn(4).setPreferredWidth(30);
 		
 		scrollPane.setVisible(true);
 	}

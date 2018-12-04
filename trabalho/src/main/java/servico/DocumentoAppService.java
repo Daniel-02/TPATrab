@@ -18,5 +18,5 @@ public interface DocumentoAppService
 	
 	List<Documento> recuperaDocumentos(); 
 	
-	public List<Documento> recuperaDocumentosPelaData(Date data, int deslocamento, int linhasPorPagina);
+	List<Documento> recuperaDocumentosPelaData(Date data, int deslocamento, int linhasPorPagina);
 }

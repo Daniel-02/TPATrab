@@ -19,7 +19,10 @@ import excecao.DocumentoNaoEncontradoException;
 import modelo.Documento;
 import servico.DocumentoAppService;
 import servico.controle.FabricaDeServico;
+import util.Util;
+
 import java.awt.SystemColor;
+import javax.swing.JTextField;
 
 public class DialogDocumento extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
@@ -44,17 +47,21 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	private Documento umDocumento;
 	private JLabel msgCabecalho;
 	private JLabel msgConclusao;
+	private JLabel msgData;
 	private JTextArea cabecalhoTextArea;
 	private JTextArea conclusaoTextArea;
+	private JTextField dataCricacoTextField;
 
 	public void designaDocumentoAFrame(Documento umDocumento) {
 		this.umDocumento = umDocumento;
 
 		cabecalhoTextArea.setText(umDocumento.getCabecalho());
 		conclusaoTextArea.setText(umDocumento.getConclusao());
+		dataCricacoTextField.setText(umDocumento.getDataCriacaoMasc());
 
 		msgCabecalho.setText("");
 		msgConclusao.setText("");
+		msgData.setText("");
 	}
 
 	public DialogDocumento(JFrame frame) {
@@ -115,32 +122,48 @@ public class DialogDocumento extends JDialog implements ActionListener {
 		panel.add(lblCabecalho);
 
 		JLabel lblConclusao = new JLabel("Conclusao");
-		lblConclusao.setBounds(10, 165, 61, 14);
+		lblConclusao.setBounds(10, 150, 61, 14);
 		panel.add(lblConclusao);
 
 		msgCabecalho = new JLabel("");
 		msgCabecalho.setForeground(Color.RED);
-		msgCabecalho.setBounds(92, 145, 350, 14);
+		msgCabecalho.setBounds(92, 130, 350, 14);
 		panel.add(msgCabecalho);
 
 		msgConclusao = new JLabel("");
 		msgConclusao.setForeground(Color.RED);
-		msgConclusao.setBounds(92, 257, 350, 14);
+		msgConclusao.setBounds(92, 226, 350, 14);
 		panel.add(msgConclusao);
 		
 		cabecalhoTextArea = new JTextArea();
 		cabecalhoTextArea.setLineWrap(true);
 		cabecalhoTextArea.setForeground(Color.WHITE);
 		cabecalhoTextArea.setBackground(Color.DARK_GRAY);
-		cabecalhoTextArea.setBounds(93, 54, 349, 90);
+		cabecalhoTextArea.setBounds(93, 54, 349, 75);
 		panel.add(cabecalhoTextArea);
 		
 		conclusaoTextArea = new JTextArea();
 		conclusaoTextArea.setLineWrap(true);
 		conclusaoTextArea.setForeground(Color.WHITE);
 		conclusaoTextArea.setBackground(Color.DARK_GRAY);
-		conclusaoTextArea.setBounds(93, 165, 349, 90);
+		conclusaoTextArea.setBounds(93, 150, 349, 75);
 		panel.add(conclusaoTextArea);
+		
+		JLabel lblDataDeCriacao = new JLabel("Data de Cria\u00E7\u00E3o");
+		lblDataDeCriacao.setBounds(10, 244, 84, 14);
+		panel.add(lblDataDeCriacao);
+		
+		dataCricacoTextField = new JTextField();
+		dataCricacoTextField.setForeground(Color.WHITE);
+		dataCricacoTextField.setBackground(Color.DARK_GRAY);
+		dataCricacoTextField.setBounds(92, 241, 175, 20);
+		panel.add(dataCricacoTextField);
+		dataCricacoTextField.setColumns(10);
+		
+		msgData = new JLabel("");
+		msgData.setForeground(Color.RED);
+		msgData.setBounds(92, 265, 350, 14);
+		panel.add(msgData);
 		buscarButton.addActionListener(this);
 	}
 
@@ -156,6 +179,8 @@ public class DialogDocumento extends JDialog implements ActionListener {
 				umDocumento = new Documento();
 				umDocumento.setCabecalho(cabecalhoTextArea.getText());
 				umDocumento.setConclusao(conclusaoTextArea.getText());
+				umDocumento.setDataCriacao(Util.strToDate(dataCricacoTextField.getText()));
+				
 
 				documentoService.inclui(umDocumento);
 
@@ -231,6 +256,15 @@ public class DialogDocumento extends JDialog implements ActionListener {
 			msgConclusao.setText("Campo de preenchimento obrigatório");
 		} else {
 			msgConclusao.setText("");
+		}
+		if (dataCricacoTextField.getText().trim().length() == 0) {
+			deuErro = true;
+			msgData.setText("Campo de preenchimento obrigatório");
+		} else if (!Util.dataValida(dataCricacoTextField.getText().trim())) {
+			deuErro = true;
+			msgData.setText("Formato de data inválida: dd/mm/yyyy");
+		} else {
+			msgData.setText("");
 		}
 
 		return deuErro;

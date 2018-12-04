@@ -11,6 +11,7 @@ import excecao.DocumentoNaoEncontradoException;
 import modelo.Documento;
 import servico.DocumentoAppService;
 import servico.controle.FabricaDeServico;
+import util.Util;
 
 public class DocumentoModel extends AbstractTableModel {
 	private static final long serialVersionUID = 1L;
@@ -19,6 +20,8 @@ public class DocumentoModel extends AbstractTableModel {
 	public static final int COLUNA_CABECALHO = 1;
 	public static final int COLUNA_CONCLUSAO = 2;
 	public static final int COLUNA_DATA = 3;
+	public static final int COLUNA_ACAO = 4;
+
 
 	private final static int NUMERO_DE_LINHAS_POR_PAGINA = 6;
 
@@ -51,12 +54,14 @@ public class DocumentoModel extends AbstractTableModel {
 			return "Conclusao";
 		if (c == COLUNA_DATA)
 			return "Data";
+		if (c == COLUNA_ACAO)
+			return "Ação";
 		return null;
 	}
 
 	@Override
 	public int getColumnCount() {
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -148,6 +153,8 @@ public class DocumentoModel extends AbstractTableModel {
 			classe = String.class;
 		if (c == COLUNA_DATA)
 			classe = Date.class;
+		if (c == COLUNA_ACAO)
+			classe = ButtonColumn.class;
 
 		return classe;
 	}
@@ -165,6 +172,8 @@ public class DocumentoModel extends AbstractTableModel {
 			umDocumento.setCabecalho((String) obj);
 		if (c == COLUNA_CONCLUSAO)
 			umDocumento.setConclusao((String) obj);
+		if (c == COLUNA_DATA)
+			umDocumento.setDataCriacao(((Util.strToDate((String) obj))));
 
 		try {
 			documentoService.altera(umDocumento);
