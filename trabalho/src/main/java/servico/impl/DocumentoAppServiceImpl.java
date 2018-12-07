@@ -76,6 +76,11 @@ public class DocumentoAppServiceImpl implements DocumentoAppService {
 		return contas;
 	}
 	
+	public int recuperaQtdPelaData(Date data) {
+		int qtd = documentoDAO.recuperaQtdPelaData(data);
+		return qtd;
+	}
+	
 	public List<Documento> recuperaDocumentosPelaData(Date data, int deslocamento, int linhasPorPagina) {
 
 		List<Documento> contas = documentoDAO.recuperaListaDeDocumentosPelaData(data, deslocamento, linhasPorPagina);

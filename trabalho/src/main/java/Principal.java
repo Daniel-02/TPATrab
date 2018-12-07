@@ -17,7 +17,7 @@ public class Principal {
 
 		DocumentoAppService documentoAppService = FabricaDeServico.getServico(DocumentoAppService.class);
 		
-		List<Documento> teste = documentoAppService.recuperaDocumentosPelaData(Util.strToDate("10/10/2000"), 0, 10);
+		List<Documento> teste = documentoAppService.recuperaDocumentosPelaData(Util.strToDate("10/10/1000"), 0, 10);
 		for (Documento documento2 : teste) {
 			System.out.println(documento2.getCabecalho());
 		}

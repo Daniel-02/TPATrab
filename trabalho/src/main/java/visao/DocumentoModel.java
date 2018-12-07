@@ -67,9 +67,7 @@ public class DocumentoModel extends AbstractTableModel {
 	@Override
 	public int getRowCount() {
 		if (qtd == null)
-			// qtd = (int) documentoService.recuperaQtdPeloNome(nomeDocumento);
-			qtd = 0;
-
+			qtd = (int) documentoService.recuperaQtdPelaData(data);
 		return qtd;
 	}
 

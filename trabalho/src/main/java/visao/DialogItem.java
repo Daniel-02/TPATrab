@@ -13,24 +13,23 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import excecao.DocumentoNaoEncontradoException;
+import excecao.ItemNaoEncontradoException;
 import modelo.Documento;
-import servico.DocumentoAppService;
+import modelo.Item;
+import servico.ItemAppService;
 import servico.controle.FabricaDeServico;
 import util.Util;
 
-import java.awt.SystemColor;
-import javax.swing.JTextField;
-
-public class DialogDocumento extends JDialog implements ActionListener {
+public class DialogItem extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 
-	private static DocumentoAppService documentoService;
+	private static ItemAppService itemService;
 
 	static {
-		documentoService = FabricaDeServico.getServico(DocumentoAppService.class);
+		itemService = FabricaDeServico.getServico(ItemAppService.class);
 	}
 
 	private JButton novoButton;
@@ -43,31 +42,41 @@ public class DialogDocumento extends JDialog implements ActionListener {
 
 	private JPanel panel;
 
-	private Documento umDocumento;
-	private JLabel msgCabecalho;
-	private JLabel msgConclusao;
+	private Item umItem;
+	private JLabel msgNome;
+	private JLabel msgConteudo;
 	private JLabel msgData;
-	private JTextArea cabecalhoTextArea;
-	private JTextArea conclusaoTextArea;
+	private JTextArea nomeTextArea;
+	private JTextArea conteudoTextArea;
 	private JTextField dataCricacoTextField;
+	private JTextField textFieldDocumento;
 
-	public void designaDocumentoAFrame(Documento umDocumento) {
-		this.umDocumento = umDocumento;
+	private Documento documentoEncontrado;
+	private JLabel msgDocumento;
+	
+	public void designaItemAFrame(Item umItem) {
+		this.umItem = umItem;
 
-		cabecalhoTextArea.setText(umDocumento.getCabecalho());
-		conclusaoTextArea.setText(umDocumento.getConclusao());
-		dataCricacoTextField.setText(umDocumento.getDataCriacaoMasc());
+		nomeTextArea.setText(umItem.getNome());
+		conteudoTextArea.setText(umItem.getConteudo());
+		textFieldDocumento.setText(umItem.getDocumento().getCabecalho());		
+		dataCricacoTextField.setText(umItem.getDataCriacaoMasc());
 
-		msgCabecalho.setText("");
-		msgConclusao.setText("");
+		msgNome.setText("");
+		msgConteudo.setText("");
 		msgData.setText("");
 	}
+	
+	public void designaDocumentoAFrame(Documento umDocumento){
+		this.documentoEncontrado = umDocumento;
+		textFieldDocumento.setText(umDocumento.getCabecalho());
+	}
 
-	public DialogDocumento(JFrame frame) {
+	public DialogItem(JFrame frame) {
 		super(frame);
 
 		setBounds(105, 147, 618, 330);
-		setTitle("Cadastro de Documentos");
+		setTitle("Cadastro de Items");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 
@@ -76,7 +85,7 @@ public class DialogDocumento extends JDialog implements ActionListener {
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
-		JLabel cadastrarLabel = new JLabel("Cadastro de Documentos");
+		JLabel cadastrarLabel = new JLabel("Cadastro de Itens");
 		cadastrarLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		cadastrarLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
 		cadastrarLabel.setBounds(189, 11, 190, 26);
@@ -113,40 +122,40 @@ public class DialogDocumento extends JDialog implements ActionListener {
 		cancelarButton.addActionListener(this);
 
 		buscarButton = new JButton("Buscar");
-		buscarButton.setBounds(452, 212, 96, 23);
+		buscarButton.setBounds(307, 190, 96, 23);
 		panel.add(buscarButton);
 
-		JLabel lblCabecalho = new JLabel("Cabe\u00E7alho");
-		lblCabecalho.setBounds(10, 54, 73, 14);
-		panel.add(lblCabecalho);
+		JLabel lblNome = new JLabel("Nome");
+		lblNome.setBounds(10, 54, 73, 14);
+		panel.add(lblNome);
 
-		JLabel lblConclusao = new JLabel("Conclusao");
-		lblConclusao.setBounds(10, 150, 61, 14);
-		panel.add(lblConclusao);
+		JLabel lblConteudo = new JLabel("Conteudo");
+		lblConteudo.setBounds(10, 100, 61, 14);
+		panel.add(lblConteudo);
 
-		msgCabecalho = new JLabel("");
-		msgCabecalho.setForeground(Color.RED);
-		msgCabecalho.setBounds(92, 130, 350, 14);
-		panel.add(msgCabecalho);
+		msgNome = new JLabel("");
+		msgNome.setForeground(Color.RED);
+		msgNome.setBounds(92, 80, 350, 14);
+		panel.add(msgNome);
 
-		msgConclusao = new JLabel("");
-		msgConclusao.setForeground(Color.RED);
-		msgConclusao.setBounds(92, 226, 350, 14);
-		panel.add(msgConclusao);
+		msgConteudo = new JLabel("");
+		msgConteudo.setForeground(Color.RED);
+		msgConteudo.setBounds(92, 175, 350, 14);
+		panel.add(msgConteudo);
 		
-		cabecalhoTextArea = new JTextArea();
-		cabecalhoTextArea.setLineWrap(true);
-		cabecalhoTextArea.setForeground(Color.WHITE);
-		cabecalhoTextArea.setBackground(Color.DARK_GRAY);
-		cabecalhoTextArea.setBounds(93, 54, 349, 75);
-		panel.add(cabecalhoTextArea);
+		nomeTextArea = new JTextArea();
+		nomeTextArea.setLineWrap(true);
+		nomeTextArea.setForeground(Color.WHITE);
+		nomeTextArea.setBackground(Color.DARK_GRAY);
+		nomeTextArea.setBounds(93, 54, 349, 26);
+		panel.add(nomeTextArea);
 		
-		conclusaoTextArea = new JTextArea();
-		conclusaoTextArea.setLineWrap(true);
-		conclusaoTextArea.setForeground(Color.WHITE);
-		conclusaoTextArea.setBackground(Color.DARK_GRAY);
-		conclusaoTextArea.setBounds(93, 150, 349, 75);
-		panel.add(conclusaoTextArea);
+		conteudoTextArea = new JTextArea();
+		conteudoTextArea.setLineWrap(true);
+		conteudoTextArea.setForeground(Color.WHITE);
+		conteudoTextArea.setBackground(Color.DARK_GRAY);
+		conteudoTextArea.setBounds(93, 100, 349, 75);
+		panel.add(conteudoTextArea);
 		
 		JLabel lblDataDeCriacao = new JLabel("Data de Cria\u00E7\u00E3o");
 		lblDataDeCriacao.setBounds(10, 244, 84, 14);
@@ -163,6 +172,23 @@ public class DialogDocumento extends JDialog implements ActionListener {
 		msgData.setForeground(Color.RED);
 		msgData.setBounds(92, 265, 350, 14);
 		panel.add(msgData);
+		
+		JLabel lblDocumento = new JLabel("Documento");
+		lblDocumento.setBounds(10, 194, 73, 14);
+		panel.add(lblDocumento);
+		
+		textFieldDocumento = new JTextField();
+		textFieldDocumento.setForeground(Color.WHITE);
+		textFieldDocumento.setBackground(Color.BLACK);
+		textFieldDocumento.setBounds(92, 191, 205, 20);
+		panel.add(textFieldDocumento);
+		textFieldDocumento.setColumns(10);
+		textFieldDocumento.setEnabled(false);
+		
+		msgDocumento = new JLabel("");
+		msgDocumento.setForeground(Color.RED);
+		msgDocumento.setBounds(92, 211, 205, 14);
+		panel.add(msgDocumento);
 		buscarButton.addActionListener(this);
 	}
 
@@ -172,92 +198,100 @@ public class DialogDocumento extends JDialog implements ActionListener {
 		if (obj == novoButton) {
 			novo();
 		} else if (obj == cadastrarButton) {
-			boolean deuErro = validaDocumento();
+			boolean deuErro = validaItem();
 
 			if (!deuErro) {
-				umDocumento = new Documento();
-				umDocumento.setCabecalho(cabecalhoTextArea.getText());
-				umDocumento.setConclusao(conclusaoTextArea.getText());
-				umDocumento.setDataCriacao(Util.strToDate(dataCricacoTextField.getText()));
-				
+				umItem = new Item();
+				umItem.setNome(nomeTextArea.getText());
+				umItem.setConteudo(conteudoTextArea.getText());
+				umItem.setDocumento(this.documentoEncontrado);
+				umItem.setDataCriacao(Util.strToDate(dataCricacoTextField.getText()));
 
-				documentoService.inclui(umDocumento);
+				itemService.inclui(umItem);
 
 				salvo();
 
-				JOptionPane.showMessageDialog(this, "Documento cadastrado com sucesso", "",
+				JOptionPane.showMessageDialog(this, "Item cadastrado com sucesso", "",
 						JOptionPane.INFORMATION_MESSAGE);
 			}
 		} else if (obj == editarButton) {
 			editavel();
 		} else if (obj == alterarButton) {
-			boolean deuErro = validaDocumento();
+			boolean deuErro = validaItem();
 
 			if (!deuErro) {
-				umDocumento.setCabecalho(cabecalhoTextArea.getText());
-				umDocumento.setConclusao(conclusaoTextArea.getText());
-				umDocumento.setDataCriacao(Util.strToDate(dataCricacoTextField.getText()));
-
+				umItem.setNome(nomeTextArea.getText());
+				umItem.setConteudo(conteudoTextArea.getText());
+				umItem.setDocumento(this.documentoEncontrado);
+				umItem.setDataCriacao(Util.strToDate(dataCricacoTextField.getText()));
 
 				try {
-					documentoService.altera(umDocumento);
+					itemService.altera(umItem);
 
 					salvo();
 
-					JOptionPane.showMessageDialog(this, "Documento atualizado com sucesso", "",
+					JOptionPane.showMessageDialog(this, "Item atualizado com sucesso", "",
 							JOptionPane.INFORMATION_MESSAGE);
-				} catch (DocumentoNaoEncontradoException e1) {
+				} catch (ItemNaoEncontradoException e1) {
 					novo();
 
-					JOptionPane.showMessageDialog(this, "Documento não encontrado", "", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this, "Item não encontrado", "", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		} else if (obj == removerButton) {
 			try {
-				documentoService.exclui(umDocumento);
+				itemService.exclui(umItem);
 
 				removido();
 
-				JOptionPane.showMessageDialog(this, "Documento removido com sucesso", "",
+				JOptionPane.showMessageDialog(this, "Item removido com sucesso", "",
 						JOptionPane.INFORMATION_MESSAGE);
-			} catch (DocumentoNaoEncontradoException e1) {
+			} catch (ItemNaoEncontradoException e1) {
 				novo();
 
-				JOptionPane.showMessageDialog(this, "Documento não encontrado", "", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Item não encontrado", "", JOptionPane.ERROR_MESSAGE);
 			}
 		} else if (obj == cancelarButton) {
 			try {
-				umDocumento = documentoService.recuperaDocumento(umDocumento.getId());
+				umItem = itemService.recuperaItem(umItem.getId());
 
-				cabecalhoTextArea.setText(umDocumento.getCabecalho());
-				conclusaoTextArea.setText(umDocumento.getConclusao());
-				dataCricacoTextField.setText(umDocumento.getDataCriacaoMasc());
+				nomeTextArea.setText(umItem.getNome());
+				conteudoTextArea.setText(umItem.getConteudo());
+				textFieldDocumento.setText(umItem.getDocumento().getId().toString());		
+				dataCricacoTextField.setText(umItem.getDataCriacaoMasc());
+				dataCricacoTextField.setText(umItem.getDataCriacaoMasc());
 
 				cancelado();
-			} catch (DocumentoNaoEncontradoException e1) {
+			} catch (ItemNaoEncontradoException e1) {
 				novo();
 
-				JOptionPane.showMessageDialog(this, "Documento não encontrado", "", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this, "Item não encontrado", "", JOptionPane.ERROR_MESSAGE);
 			}
 		} else if (obj == buscarButton) {
-			DialogTabelaDocumento dialog = new DialogTabelaDocumento(this);
+			DialogTabelaItem dialog = new DialogTabelaItem(this);
 			dialog.setVisible(true);
 		}
 	}
 
-	private boolean validaDocumento() {
+	private boolean validaItem() {
 		boolean deuErro = false;
-		if (cabecalhoTextArea.getText().trim().length() == 0) {
+		if (nomeTextArea.getText().trim().length() == 0) {
 			deuErro = true;
-			msgCabecalho.setText("Campo de preenchimento obrigatório");
+			msgNome.setText("Campo de preenchimento obrigatório");
 		} else {
-			msgCabecalho.setText("");
+			msgNome.setText("");
 		}
-		if (conclusaoTextArea.getText().trim().length() == 0) {
+		if (conteudoTextArea.getText().trim().length() == 0) {
 			deuErro = true;
-			msgConclusao.setText("Campo de preenchimento obrigatório");
+			msgConteudo.setText("Campo de preenchimento obrigatório");
 		} else {
-			msgConclusao.setText("");
+			msgConteudo.setText("");
+		}
+		if (textFieldDocumento.getText().trim().length() == 0) {
+			deuErro = true;
+			msgDocumento.setText("Campo de preenchimento obrigatório");
+		} else {
+			msgDocumento.setText("");
 		}
 		if (dataCricacoTextField.getText().trim().length() == 0) {
 			deuErro = true;
@@ -273,14 +307,29 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	}
 
 	public void novo() {
-		cabecalhoTextArea.setEnabled(true);
-		conclusaoTextArea.setEnabled(true);
+		nomeTextArea.setEnabled(true);
+		conteudoTextArea.setEnabled(true);
 		dataCricacoTextField.setEnabled(true);
-		
-		cabecalhoTextArea.setText("");
-		conclusaoTextArea.setText("");
+
+		nomeTextArea.setText("");
+		conteudoTextArea.setText("");
 		dataCricacoTextField.setText("");
-		
+		textFieldDocumento.setText("");
+
+		novoButton.setEnabled(false);
+		cadastrarButton.setEnabled(true);
+		editarButton.setEnabled(false);
+		alterarButton.setEnabled(false);
+		removerButton.setEnabled(false);
+		cancelarButton.setEnabled(false);
+		buscarButton.setEnabled(true);
+	}
+
+	public void novoDoDocumento() {
+		nomeTextArea.setEnabled(true);
+		conteudoTextArea.setEnabled(true);
+		dataCricacoTextField.setEnabled(true);
+
 		novoButton.setEnabled(false);
 		cadastrarButton.setEnabled(true);
 		editarButton.setEnabled(false);
@@ -291,11 +340,10 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	}
 
 	public void salvo() {
-		cabecalhoTextArea.setEnabled(false);
-		conclusaoTextArea.setEnabled(false);
+		nomeTextArea.setEnabled(false);
+		conteudoTextArea.setEnabled(false);
 		dataCricacoTextField.setEnabled(false);
 
-		
 		novoButton.setEnabled(true);
 		cadastrarButton.setEnabled(false);
 		editarButton.setEnabled(true);
@@ -306,10 +354,9 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	}
 
 	public void editavel() {
-		cabecalhoTextArea.setEnabled(true);
-		conclusaoTextArea.setEnabled(true);
+		nomeTextArea.setEnabled(true);
+		conteudoTextArea.setEnabled(true);
 		dataCricacoTextField.setEnabled(true);
-
 
 		novoButton.setEnabled(false);
 		cadastrarButton.setEnabled(false);
@@ -321,8 +368,8 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	}
 
 	public void removido() {
-		cabecalhoTextArea.setEnabled(false);
-		conclusaoTextArea.setEnabled(false);
+		nomeTextArea.setEnabled(false);
+		conteudoTextArea.setEnabled(false);
 		dataCricacoTextField.setEnabled(false);
 
 		novoButton.setEnabled(true);
@@ -335,10 +382,9 @@ public class DialogDocumento extends JDialog implements ActionListener {
 	}
 
 	public void cancelado() {
-		cabecalhoTextArea.setEnabled(false);
-		conclusaoTextArea.setEnabled(false);
+		nomeTextArea.setEnabled(false);
+		conteudoTextArea.setEnabled(false);
 		dataCricacoTextField.setEnabled(false);
-
 
 		novoButton.setEnabled(true);
 		cadastrarButton.setEnabled(false);

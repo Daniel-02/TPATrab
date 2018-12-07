@@ -30,7 +30,8 @@ public interface DocumentoDAO extends DaoGenerico<Documento, Long> {
 	Set<Documento> recuperaConjuntoDeDocumentosEItens();
 
 	/* ****** Métodos não Genéricos ******* */
-
+	int recuperaQtdPelaData(Date data);
+	
 	List<Documento> recuperaListaDeDocumentosPelaData(Date data, int deslocamento, int linhasPorPagina);
 	// Um método definido aqui, que não seja anotado, deverá ser
 	// implementado como final em ProdutoDAOImpl.
