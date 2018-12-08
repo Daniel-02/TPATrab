@@ -1,0 +1,18 @@
+CREATE TABLE `documento` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cabecalho` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `conclusao` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `dataCriacao` date NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_bin
+
+CREATE TABLE `item` (
+  `id` int(11) NOT NULL,
+  `nome` varchar(45) DEFAULT NULL,
+  `conteudo` varchar(300) DEFAULT NULL,
+  `documento_id` int(11) NOT NULL,
+  `dataCriacao` date NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `item_documento_fk_idx` (`documento_id`),
+  CONSTRAINT `item_documento_fk` FOREIGN KEY (`documento_id`) REFERENCES `documento` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
