@@ -2,7 +2,7 @@ package excecao;
 
 import anotacao.ConstraintViolada;
 
-@ConstraintViolada(nome="LANCE_PRODUTO_FK")
+@ConstraintViolada(nome="item_documento_fk")
 public class DocumentoComItensException extends RuntimeException
 {
 	private final static long serialVersionUID = 1;

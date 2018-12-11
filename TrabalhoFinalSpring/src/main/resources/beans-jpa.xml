@@ -77,12 +77,12 @@
     <bean id="dataSource" 
           class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-<!--             <property name="url"      value="jdbc:mysql://bdserver.ic.uff.br:3306/banco1"/>    -->
-<!--             <property name="username"     value="aluno"/> -->
-<!--             <property name="password" value="banco@dados17"/> -->
-            <property name="url"      value="jdbc:mysql:///trab?serverTimezone=UTC"/>   
-            <property name="username"     value="root"/>
-            <property name="password" value="300893"/>
+            <property name="url"      value="jdbc:mysql://bdserver.ic.uff.br:3306/banco1"/>   
+            <property name="username"     value="aluno"/>
+            <property name="password" value="banco@dados17"/>
+<!--             <property name="url"      value="jdbc:mysql:///trab?serverTimezone=UTC"/>    -->
+<!--             <property name="username"     value="root"/> -->
+<!--             <property name="password" value="300893"/> -->
     </bean>
 <!-- 
     Exception translation is still enabled by the use of the @Repository annotation on the DAO. 

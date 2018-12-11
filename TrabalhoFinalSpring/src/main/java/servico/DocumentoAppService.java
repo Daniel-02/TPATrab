@@ -44,7 +44,8 @@ public class DocumentoAppService {
 	public void exclui(Documento documento) throws DocumentoNaoEncontradoException {
 		System.out.println("Vai chamar o método exclui() de DocumentoDAOImpl.");
 
-		documentoDAO.exclui(documento);
+		Documento docAremover = recuperaDocumento(documento.getId());
+		documentoDAO.exclui(docAremover);
 
 		System.out.println("Chamou o método exclui() de DocumentoDAOImpl.");
 	}

@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import excecao.DocumentoComItensException;
 import excecao.DocumentoNaoEncontradoException;
 import modelo.Documento;
 import servico.DocumentoAppService;
@@ -218,7 +219,10 @@ public class DialogDocumento extends JDialog implements ActionListener {
 
 				JOptionPane.showMessageDialog(this, "Documento removido com sucesso", "",
 						JOptionPane.INFORMATION_MESSAGE);
-			} catch (DocumentoNaoEncontradoException e1) {
+			} catch (DocumentoComItensException e1) {
+				JOptionPane.showMessageDialog(this, "Documento não pode ser removido pois algum item está associado a ele.", "", JOptionPane.ERROR_MESSAGE);
+			}
+			catch (DocumentoNaoEncontradoException e1) {
 				novo();
 
 				JOptionPane.showMessageDialog(this, "Documento não encontrado", "", JOptionPane.ERROR_MESSAGE);
